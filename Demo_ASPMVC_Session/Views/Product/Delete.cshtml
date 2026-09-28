@@ -1,0 +1,13 @@
+@model Demo_ASPMVC_Session.Domain.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Confirmer la suppression de @Html.DisplayFor(model => model.Name)</h4>
+    <a asp-action="DeleteConfirm" asp-route-id="@Model?.Id">Oui</a> |
+    <a asp-action="Index">Nope</a>
+</div>
