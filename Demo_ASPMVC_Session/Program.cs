@@ -1,4 +1,5 @@
 using Demo_ASPMVC_Session.Domain.Services;
+using Demo_ASPMVC_Session.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,12 @@ builder.Services.AddScoped<MemberService>();
 // Add session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+// SessionManager
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<SessionManager>();
+
+//--------------------------------------------------------------------------------------
 
 
 var app = builder.Build();

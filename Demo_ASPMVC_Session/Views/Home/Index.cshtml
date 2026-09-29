@@ -7,11 +7,14 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 
-    @if(ViewContext.HttpContext.Session.GetInt32("MemberId") is not null)
-    {
-        string username = ViewContext.HttpContext.Session.GetString("Username")!;
+    @{
+        string? username = ViewContext.HttpContext.Session.GetString("Username");
 
-        <p>Bonjour @username !</p>
+        if(username is not null)
+        {
+            // Access à la session en direct
+            <p>Bonjour @username !</p>
+        }
     }
 
 </div>

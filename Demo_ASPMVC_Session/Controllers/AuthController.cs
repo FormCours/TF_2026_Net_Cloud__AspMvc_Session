@@ -1,6 +1,7 @@
 ﻿using Demo_ASPMVC_Session.Domain.Models;
 using Demo_ASPMVC_Session.Domain.Services;
 using Demo_ASPMVC_Session.Models;
+using Demo_ASPMVC_Session.Tools;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo_ASPMVC_Session.Controllers
@@ -8,10 +9,12 @@ namespace Demo_ASPMVC_Session.Controllers
     public class AuthController : Controller
     {
         private readonly MemberService _memberService;
+        private readonly SessionManager _sessionManager;
 
-        public AuthController(MemberService memberService)
+        public AuthController(MemberService memberService, SessionManager sessionManager)
         {
             _memberService = memberService;
+            _sessionManager = sessionManager;
         }
 
 
@@ -31,8 +34,13 @@ namespace Demo_ASPMVC_Session.Controllers
             Member member = _memberService.Login(model.Username, model.Password);
 
             // Sauvegarder des infos dans la session
+            // - Access à la session en direct
+            /*
             HttpContext.Session.SetInt32("MemberId", member.Id);
             HttpContext.Session.SetString("Username", member.Username);
+            */
+            // - Utilisation du Session manager
+            _sessionManager.Login(member);
 
             return RedirectToAction("Index", "Home");
         }
@@ -41,8 +49,15 @@ namespace Demo_ASPMVC_Session.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
+            // Suppréssion des infos dans la session
+            // - Access à la session en direct
+            /*
             HttpContext.Session.Clear();
+            */
+            // - Utilisation du Session manager
+            _sessionManager.Logout();
+
             return RedirectToAction("Index", "Home");
-        }
-    }
+}
+}
 }
