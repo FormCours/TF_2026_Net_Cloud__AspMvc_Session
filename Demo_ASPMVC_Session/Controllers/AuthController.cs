@@ -24,7 +24,7 @@ namespace Demo_ASPMVC_Session.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginFormModel model)
+        public async Task<IActionResult> Login(LoginFormModel model)
         {
             if(!ModelState.IsValid)
             {
@@ -40,14 +40,14 @@ namespace Demo_ASPMVC_Session.Controllers
             HttpContext.Session.SetString("Username", member.Username);
             */
             // - Utilisation du Session manager
-            _sessionManager.Login(member);
+            await _sessionManager.Login(member);
 
             return RedirectToAction("Index", "Home");
         }
 
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             // Suppréssion des infos dans la session
             // - Access à la session en direct
@@ -55,9 +55,15 @@ namespace Demo_ASPMVC_Session.Controllers
             HttpContext.Session.Clear();
             */
             // - Utilisation du Session manager
-            _sessionManager.Logout();
+            await _sessionManager.Logout();
 
             return RedirectToAction("Index", "Home");
-}
-}
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+    }
 }

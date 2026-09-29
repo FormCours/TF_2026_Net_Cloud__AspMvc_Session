@@ -1,0 +1,12 @@
+﻿@using Demo_ASPMVC_Session.Tools
+@inject SessionManager _sessionManager
+
+@{
+    ViewData["Title"] = "Nope !";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>T'as pas le droit d'être là @_sessionManager.Username !</h4>
+</div>

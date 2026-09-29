@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo_ASPMVC_Session.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly ProductService _productService;
@@ -16,6 +17,7 @@ namespace Demo_ASPMVC_Session.Controllers
             _productService = productService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
@@ -46,6 +48,7 @@ namespace Demo_ASPMVC_Session.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -54,6 +57,7 @@ namespace Demo_ASPMVC_Session.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         [Route("product/delete/{id}/confirm")]
         public IActionResult DeleteConfirm(int id)
